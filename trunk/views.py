@@ -1,13 +1,11 @@
-from rest_framework import views, response, generics, filters
+from rest_framework import views, response, filters, generics
 from .serializers import SubjectSerializer, Subject_InfoSerializer, Subject_Extra_InfoSerializer
 from .models import Subject, Subject_Info, Subject_Extra_Info
 from base.models import Alloma
 from django.http import Http404
-
+from django_filters.rest_framework import DjangoFilterBackend
 
 class SubjectAPIView(views.APIView):
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['name']
     def get(self, request, pk):
         queryset = self.get_object(pk)
         query = Subject.objects.filter(menu_id=queryset.pk)
@@ -46,3 +44,8 @@ class Subject_Extra_InfoAPIView(views.APIView):
         except Subject_Info.DoesNotExist:
             raise Http404
 
+class FilterAPIView(generics.ListAPIView):
+    queryset = Subject.objects.all()
+    serializer_class = SubjectSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'menu__name']
