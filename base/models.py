@@ -9,6 +9,9 @@ class Century(models.Model):
     def __str__(self) -> str:
         return self.century
 
+    class Meta:
+        verbose_name = "Asr"
+        verbose_name_plural = "Asrlar"
 
 class Madrasa(models.Model):
     name = models.CharField(max_length=100)
@@ -17,6 +20,9 @@ class Madrasa(models.Model):
     def __str__(self) -> str:
         return str(self.name) + ' ' + str(self.relevant_century.century)
 
+    class Meta:
+        verbose_name = "Madrasa"
+        verbose_name_plural = "Barcha Madrasalar"
 
 class AllomaMenu(models.Model):
     title = models.CharField(max_length=100)
@@ -24,6 +30,10 @@ class AllomaMenu(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = "Alloma Tarmoq Menyusi"
+        verbose_name_plural = "Alloma Tarmoqlar Menyulari"
 
 # def nameImage(instance, imagename):
 #     return '/'.join(['images', str(instance.name), imagename])
@@ -39,3 +49,7 @@ class Alloma(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    class Meta:
+        verbose_name = "Alloma"
+        verbose_name_plural = "Allomalar"

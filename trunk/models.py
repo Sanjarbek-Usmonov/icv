@@ -9,6 +9,10 @@ class Subject(models.Model):
     def __str__(self):
         return str(self.menu) + ' ' + str(self.name)
 
+    class Meta:
+        verbose_name = "Fan"
+        verbose_name_plural = "Barcha Fanlar"
+
 class Subject_Info(models.Model):
     text = models.TextField()
     image = models.ImageField(upload_to='images', blank=True, null=True)
@@ -17,6 +21,9 @@ class Subject_Info(models.Model):
     def __str__(self):
         return str(self.pk) + ' | ' + str(self.text[:20]) + ' ----> ' + str(self.subject.menu.name)
 
+    class Meta:
+        verbose_name = "Fanga tegishli Ma'lumot"
+        verbose_name_plural = "Fanga tegishli Ma'lumotlar"
 
 class Subject_Extra_Info(models.Model):
     text = models.TextField()
@@ -26,4 +33,6 @@ class Subject_Extra_Info(models.Model):
     def __str__(self):
         return str(self.pk) + ' | ' + str(self.text[:20]) + ' ----> ' + str(self.subject.subject.menu.name)
 
-
+    class Meta:
+        verbose_name = "Fanga tegishli Ma'lumotga aloqador Ma'lumot"
+        verbose_name_plural = "Fanga tegishli Ma'lumotlarga aloqador Ma'lumotlar"
