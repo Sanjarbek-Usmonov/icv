@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Century, Madrasa, Alloma
+from .models import Century, Madrasa, Alloma, AllomaMenu
 
 
 class CenturySerializer(serializers.Serializer):
@@ -26,5 +26,5 @@ class AllomaIDSerializer(serializers.Serializer):
     image = serializers.ImageField(read_only=True)
     madrasa_alloma = serializers.CharField(read_only=True)
     about = serializers.CharField(read_only=True)
-    allomamenu = serializers.PrimaryKeyRelatedField(many=True, allow_empty=False, read_only=True)
+    allomamenu = serializers.StringRelatedField(many=True, read_only=True)
 
