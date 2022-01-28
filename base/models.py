@@ -3,8 +3,8 @@ from django.db import models
 
 
 class Century(models.Model):
-    century = models.CharField(max_length=100)
-    sum_madrasa = models.CharField(max_length=100, null=True)
+    century = models.CharField(max_length=100, verbose_name='Asr')
+    sum_madrasa = models.CharField(max_length=100, null=True, verbose_name='Madrasalar soni')
 
     def __str__(self) -> str:
         return self.century
@@ -14,8 +14,8 @@ class Century(models.Model):
         verbose_name_plural = "Asrlar"
 
 class Madrasa(models.Model):
-    name = models.CharField(max_length=100)
-    relevant_century = models.ForeignKey(Century, on_delete=models.PROTECT)
+    name = models.CharField(max_length=100, verbose_name='Madrasa nomi')
+    relevant_century = models.ForeignKey(Century, on_delete=models.PROTECT, verbose_name='Madrasa mavjud bo\'lgan asr')
 
     def __str__(self) -> str:
         return str(self.name) + ' ' + str(self.relevant_century.century)
@@ -25,7 +25,7 @@ class Madrasa(models.Model):
         verbose_name_plural = "Barcha Madrasalar"
 
 class AllomaMenu(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, verbose_name='Menyu nomi')
     logo = models.ImageField(upload_to='images', blank=True, null=True)
 
     def __str__(self):
@@ -39,13 +39,13 @@ class AllomaMenu(models.Model):
 #     return '/'.join(['images', str(instance.name), imagename])
 
 class Alloma(models.Model):
-    name = models.CharField(max_length=50)
-    birth_year = models.CharField(max_length=30, null=True)
-    birth_area = models.CharField(max_length=50, null=True)
-    image = models.ImageField(upload_to='images')
-    madrasa_alloma = models.ForeignKey(Madrasa, on_delete=models.PROTECT)
-    about = models.TextField(null=True)
-    allomamenu = models.ManyToManyField(AllomaMenu, null=True, blank=True)
+    name = models.CharField(max_length=50, verbose_name='Alloma ismi')
+    birth_year = models.CharField(max_length=30, null=True, verbose_name='Tug\'ilgan yili')
+    birth_area = models.CharField(max_length=50, null=True, verbose_name='Tug\'ilgan joyi')
+    image = models.ImageField(upload_to='images', verbose_name='Allomaning rasmi')
+    madrasa_alloma = models.ForeignKey(Madrasa, on_delete=models.PROTECT, verbose_name='Alloma mansub madrasa')
+    about = models.TextField(null=True, verbose_name='Alloma haqida ma\'lumot')
+    allomamenu = models.ManyToManyField(AllomaMenu, null=True, blank=True, verbose_name='Allomaga tegishli yo\'nalishlar')
 
     def __str__(self) -> str:
         return self.name
