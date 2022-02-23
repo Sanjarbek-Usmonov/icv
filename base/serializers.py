@@ -10,7 +10,7 @@ class CenturySerializer(serializers.Serializer):
 class MadrasaSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(read_only=True)
-    relevant_century = serializers.CharField(read_only=True)
+    century_id = serializers.PrimaryKeyRelatedField(read_only=True)
 
 class AllomaSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)

@@ -17,6 +17,6 @@ class CenturyAdmin(admin.ModelAdmin):
 
 @admin.register(Madrasa)
 class MadrasaAdmin(admin.ModelAdmin):
-    list_display = ("name", "relevant_century")
-    list_filter = ("relevant_century",)
+    list_display = ("name", "century_id")
+    list_filter = ("century_id",)
     search_fields = ["name"]

@@ -15,7 +15,7 @@ class Century(models.Model):
 
 class Madrasa(models.Model):
     name = models.CharField(max_length=100, verbose_name='Madrasa nomi')
-    relevant_century = models.ForeignKey(Century, on_delete=models.PROTECT, verbose_name='Madrasa mavjud bo\'lgan asr')
+    century_id = models.ForeignKey(Century, on_delete=models.PROTECT, verbose_name='Madrasa mavjud bo\'lgan asr')
 
     def __str__(self) -> str:
         return str(self.name) + ' ' + str(self.relevant_century.century)
