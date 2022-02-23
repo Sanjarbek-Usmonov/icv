@@ -18,7 +18,7 @@ class Madrasa(models.Model):
     century_id = models.ForeignKey(Century, on_delete=models.PROTECT, verbose_name='Madrasa mavjud bo\'lgan asr')
 
     def __str__(self) -> str:
-        return str(self.name) + ' ' + str(self.relevant_century.century)
+        return str(self.name) + ' ' + str(self.century_id.century)
 
     class Meta:
         verbose_name = "Madrasa"
