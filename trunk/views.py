@@ -1,6 +1,6 @@
 from rest_framework import views, response, filters, generics
-from .serializers import SubjectSerializer, Subject_InfoSerializer, Subject_Extra_InfoSerializer
-from .models import Subject, Subject_Info, Subject_Extra_Info
+from .serializers import SubjectSerializer, Subject_InfoSerializer, Subject_Extra_InfoSerializer, BooksSerializer, WoScienceSerializer
+from .models import Subject, Subject_Info, Subject_Extra_Info, Books, WoScience
 from base.models import Alloma
 from django.http import Http404
 from django_filters.rest_framework import DjangoFilterBackend
@@ -49,3 +49,15 @@ class FilterAPIView(generics.ListAPIView):
     serializer_class = SubjectSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['name', 'menu__name']
+
+class BooksAPIView(views.APIView):
+    def get(self, request):
+        queryset = Books.objects.all()
+        serializer = BooksSerializer(queryset, many=True)
+        return response.Response(serializer.data)
+
+class WoScienceAPIView(views.APIView):
+    def get(self, request):
+        queryset = WoScience.objects.all()
+        serializer = WoScienceSerializer(queryset, many=True)
+        return response.Response(serializer.data)

@@ -1,7 +1,7 @@
 from rest_framework import views, response, status
-from .models import Alloma, Century, Madrasa
+from .models import Alloma, Century, Madrasa, Regions
 from django.http import Http404
-from .serializers import CenturySerializer, MadrasaSerializer, AllomaSerializer, AllomaIDSerializer
+from .serializers import CenturySerializer, MadrasaSerializer, AllomaSerializer, AllomaIDSerializer, RegionsSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 
 class CenturyAPIView(views.APIView):
@@ -36,23 +36,8 @@ class AllomaIDAPIView(views.APIView):
         except Alloma.DoesNotExist:
             raise Http404
 
-
-
-# class FooFilter(DjangoFilterBackend):
-#     def filter_queryset(self, request, queryset, view):
-#         filter_class = self.get_filter_class(view, queryset)
-#         if filter_class:
-#             return filter_class(request.query_params, queryset=queryset, request=request).qs
-#         return queryset
-#
-# class Foo(views.APIView):
-#     filter_fields = ('name')
-#     def get(self, request, format=None):
-#         queryset = Madrasa.objects.all()
-#         ff = FooFilter()
-#         filtered_queryset = ff.filter_queryset(request, queryset, self)
-#         if filtered_queryset.exists():
-#             serializer = MadrasaSerializer(queryset, many=True)
-#             return response.Response(serializer.data, status=status.HTTP_200_OK)
-#         else:
-#             return response.Response([], status=status.HTTP_200_OK)
+class RegionsAPIView(views.APIView):
+    def get(self, request):
+        queryset = Regions.objects.all()
+        serializer = RegionsSerializer(queryset, many=True)
+        return response.Response(serializer.data)

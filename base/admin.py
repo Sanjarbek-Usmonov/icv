@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Century, Alloma, Madrasa, AllomaMenu
+from .models import Century, Alloma, Madrasa, AllomaMenu, Regions
 
 @admin.register(Alloma)
 class AllomaAdmin(admin.ModelAdmin):
@@ -19,4 +19,10 @@ class CenturyAdmin(admin.ModelAdmin):
 class MadrasaAdmin(admin.ModelAdmin):
     list_display = ("name", "century_id")
     list_filter = ("century_id",)
+    search_fields = ["name"]
+
+@admin.register(Regions)
+class RegionAdmin(admin.ModelAdmin):
+    list_display = ("id", "name")
+    list_filter = ("name",)
     search_fields = ["name"]
