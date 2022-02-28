@@ -1,21 +1,38 @@
 from rest_framework import serializers
 from .models import Subject, Subject_Info, Subject_Extra_Info, Books, WoScience
 
-class SubjectSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(read_only=True)
-    image = serializers.ImageField(read_only=True)
-    menu = serializers.CharField(read_only=True)
+class SubjectSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField('get_image_url')
+
+    def get_image_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.image.url)
+
+    class Meta:
+        model = Subject
+        fields = ('id', 'name', 'image_url', 'menu')
 
 class Subject_InfoSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField('get_image_url')
+
+    def get_image_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.image.url)
+
     class Meta:
         model = Subject_Info
-        fields = '__all__'
+        fields = ('id', 'text', 'image_url', 'subject')
 
 class Subject_Extra_InfoSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField('get_image_url')
+
+    def get_image_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.image.url)
+
     class Meta:
         model = Subject_Extra_Info
-        fields = '__all__'
+        fields = ('id', 'text', 'image_url', 'subject')
 
 class BooksSerializer(serializers.ModelSerializer):
     class Meta:
@@ -23,6 +40,12 @@ class BooksSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class WoScienceSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField('get_image_url')
+
+    def get_image_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.image.url)
+
     class Meta:
         model = WoScience
-        fields = '__all__'
+        fields = ('id', 'info', 'image_url', 'author_id')

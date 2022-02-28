@@ -13,20 +13,27 @@ class MadrasaSerializer(serializers.Serializer):
     century_id = serializers.PrimaryKeyRelatedField(read_only=True)
     region_id = serializers.PrimaryKeyRelatedField(read_only=True)
 
-class AllomaSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(read_only=True)
-    image = serializers.ImageField(read_only=True)
-    madrasa_alloma = serializers.PrimaryKeyRelatedField(read_only=True)
+class AllomaSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField('get_image_url')
 
-class AllomaIDSerializer(serializers.Serializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(read_only=True)
-    birth_year = serializers.CharField(read_only=True)
-    birth_area = serializers.CharField(read_only=True)
-    image = serializers.ImageField(read_only=True)
-    madrasa_alloma = serializers.CharField(read_only=True)
-    about = serializers.CharField(read_only=True)
+    def get_image_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.image.url)
+
+    class Meta:
+        model = Alloma
+        fields = ('id', 'name', 'madrasa_alloma', 'image_url')
+
+class AllomaIDSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField('get_image_url')
+
+    def get_image_url(self, obj):
+        request = self.context.get("request")
+        return request.build_absolute_uri(obj.image.url)
+
+    class Meta:
+        model = Alloma
+        fields = ('id', 'name', 'birth_year', 'birth_area', 'image_url', 'madrasa_alloma', 'about')
 
 class RegionsSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)

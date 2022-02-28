@@ -19,14 +19,14 @@ class MadrasaAPIView(views.APIView):
 class AllomaAPIView(views.APIView):
     def get(self, request):
         query = Alloma.objects.all()
-        serializer = AllomaSerializer(query, many=True)
+        serializer = AllomaSerializer(query, many=True, context={"request": request})
         return response.Response(serializer.data)
 
 
 class AllomaIDAPIView(views.APIView):
     def get(self, request, pk, *args, **kwargs):
         queryset = self.get_object(pk)
-        serializer = AllomaIDSerializer(queryset)
+        serializer = AllomaIDSerializer(queryset, context={"request": request})
         return response.Response(serializer.data)
 
 

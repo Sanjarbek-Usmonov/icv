@@ -9,7 +9,7 @@ class SubjectAPIView(views.APIView):
     def get(self, request, pk):
         queryset = self.get_object(pk)
         query = Subject.objects.filter(menu_id=queryset.pk)
-        serializer = SubjectSerializer(query, many=True)
+        serializer = SubjectSerializer(query, many=True, context={'request': request})
         return response.Response(serializer.data)
 
     def get_object(self, pk):
@@ -22,7 +22,7 @@ class Subject_InfoAPIView(views.APIView):
     def get(self, request, pk):
         queryset = self.get_object(pk)
         query = Subject_Info.objects.filter(subject_id=queryset.pk)
-        serializer = Subject_InfoSerializer(query, many=True)
+        serializer = Subject_InfoSerializer(query, many=True, context={'request': request})
         return response.Response(serializer.data)
 
     def get_object(self, pk):
@@ -35,7 +35,7 @@ class Subject_Extra_InfoAPIView(views.APIView):
     def get(self, request, pk):
         queryset = self.get_object(pk)
         query = Subject_Extra_Info.objects.filter(subject_id=queryset.pk)
-        serializer = Subject_Extra_InfoSerializer(query, many=True)
+        serializer = Subject_Extra_InfoSerializer(query, many=True, context={'request': request})
         return response.Response(serializer.data)
 
     def get_object(self, pk):
@@ -59,5 +59,5 @@ class BooksAPIView(views.APIView):
 class WoScienceAPIView(views.APIView):
     def get(self, request):
         queryset = WoScience.objects.all()
-        serializer = WoScienceSerializer(queryset, many=True)
+        serializer = WoScienceSerializer(queryset, many=True, context={'request': request})
         return response.Response(serializer.data)
