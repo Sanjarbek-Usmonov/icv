@@ -1,8 +1,9 @@
+from tabnanny import verbose
 from django.db import models
 # from mptt.models import MPTTModel, TreeForeignKey, TreeManyToManyField
 
 class Regions(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Shahar nomi')
+    name = models.CharField(max_length=50, verbose_name='Shahar nomi', unique=True)
 
     def __str__(self):
         return self.name
@@ -12,8 +13,7 @@ class Regions(models.Model):
         verbose_name_plural = "Shaharlar "
 
 class Century(models.Model):
-    century = models.CharField(max_length=100, verbose_name='Asr')
-    sum_madrasa = models.CharField(max_length=100, null=True, verbose_name='Madrasalar soni')
+    century = models.CharField(max_length=100, verbose_name='Asr', unique=True)
 
     def __str__(self) -> str:
         return self.century
@@ -22,13 +22,37 @@ class Century(models.Model):
         verbose_name = "Asr "
         verbose_name_plural = "Asrlar "
 
+class SumMadrasa(models.Model):
+    region_id = models.ForeignKey(Regions, null=True, on_delete=models.CASCADE, verbose_name='Shahar ')
+    century_id = models.ForeignKey(Century, null=True, on_delete=models.CASCADE, verbose_name='Asr ')
+    sum_madrasa = models.CharField(max_length=100, null=True, verbose_name='Madrasalar soni ')
+
+    def __str__(self) -> str:
+        return self.sum_madrasa
+
+    class Meta:
+        verbose_name = "Madrasalar soni "
+        verbose_name_plural = "Madrasalar soni "
+
+
+class MadrasaName(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Madrasa nomi', unique=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        verbose_name = 'Madrasa nomi '
+        verbose_name_plural = 'Madrasalar nomlari '
+
+
 class Madrasa(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Madrasa nomi')
+    madrasa_id = models.ForeignKey(MadrasaName, on_delete=models.CASCADE, verbose_name='Madrasa', null=True)
     century_id = models.ForeignKey(Century, on_delete=models.PROTECT, verbose_name='Madrasa mavjud bo\'lgan asr')
     region_id = models.ForeignKey(Regions, null=True, on_delete=models.PROTECT, verbose_name='Madrasa joylashgan shahar')
 
     def __str__(self) -> str:
-        return str(self.name) + ' ' + str(self.century_id.century)
+        return str(self.century_id.century)
 
     class Meta:
         verbose_name = "Madrasa "
