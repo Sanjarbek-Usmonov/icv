@@ -22,7 +22,7 @@ class CenturyAPIView(views.APIView):
 class SumMadrasaView(generics.ListAPIView):
     serializer_class = SumMadrasaSerializer
     queryset = SumMadrasa.objects.all()
-
+ 
 
 class MadrasaNameView(generics.ListAPIView):
     serializer_class = MadrasaNameSerializer

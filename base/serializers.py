@@ -52,6 +52,6 @@ class AllomaIDSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Alloma
-        fields = ('id', 'name', 'birth_year', 'birth_area', 'image_url', 'madrasa_alloma', 'about')
+        fields = ('id', 'name', 'birth_year', 'birth_area', 'image_url', 'madrasa_alloma', 'about', 'subject_id', 'books')
 
 

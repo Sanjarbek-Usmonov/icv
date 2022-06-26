@@ -1,22 +1,23 @@
 from rest_framework import views, response, filters, generics
 from .serializers import SubjectSerializer, Subject_InfoSerializer, Subject_Extra_InfoSerializer, BooksSerializer, WoScienceSerializer
-from .models import Subject, Subject_Info, Subject_Extra_Info, Books, WoScience
-from base.models import Alloma
+from .models import Subject
+from base.models import Alloma, Books, WoScience, Subject_Info, Subject_Extra_Info
 from django.http import Http404
 from django_filters.rest_framework import DjangoFilterBackend
 
 class SubjectAPIView(views.APIView):
-    def get(self, request, pk):
-        queryset = self.get_object(pk)
-        query = Subject.objects.filter(menu_id=queryset.pk)
+    # queryset = Subject.objects.all()
+    # serializer_class = SubjectSerializer
+    def get(self, request):
+        query = Subject.objects.all()
         serializer = SubjectSerializer(query, many=True, context={'request': request})
         return response.Response(serializer.data)
 
-    def get_object(self, pk):
-        try:
-            return Alloma.objects.get(pk=pk)
-        except Alloma.DoesNotExist:
-            raise Http404
+    # def get_object(self, pk):
+    #     try:
+    #         return Alloma.objects.get(pk=pk)
+    #     except Alloma.DoesNotExist:
+    #         raise Http404
 
 class Subject_InfoAPIView(views.APIView):
     def get(self, request, pk):
@@ -48,7 +49,7 @@ class FilterAPIView(generics.ListAPIView):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
     filter_backends = [filters.SearchFilter]
-    search_fields = ['name', 'menu__name']
+    search_fields = ['name']
 
 class BooksAPIView(views.APIView):
     def get(self, request):
